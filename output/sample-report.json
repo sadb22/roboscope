@@ -1,0 +1,935 @@
+{
+  "model_version": "warehouse-1.0.0",
+  "data_version": "fc-bas-2026-09-16",
+  "calculated_at": "2026-09-17T08:39:41.294046+00:00",
+  "inputs": {
+    "area": 20000.0,
+    "active_area": 10000.0,
+    "aisle_width": 2.8,
+    "payload_kg": 800.0,
+    "temperature": 18.0,
+    "daily_moves": 2000.0,
+    "hours_day": 22.0,
+    "days_year": 365,
+    "peak_factor": 1.5,
+    "distance": 120.0,
+    "handling_seconds": 90.0,
+    "speed": 1.2,
+    "battery_hours": 6.0,
+    "charge_minutes": 18.0,
+    "utilization": 80.0,
+    "reserve_pct": 15.0,
+    "robots_override": 0,
+    "loading_bays": 3,
+    "corridor_capacity": 3,
+    "staff": 25.0,
+    "salary": 120000.0,
+    "payroll_factor": 1.302,
+    "released_pct": 55.0,
+    "cash_realization_pct": 80.0,
+    "support_staff": 2.0,
+    "robot_price": 0.0,
+    "charger_price": 250000.0,
+    "robots_per_charger": 5,
+    "infrastructure": 1500000.0,
+    "software": 1000000.0,
+    "integration": 2000000.0,
+    "training": 250000.0,
+    "capex_reserve_pct": 10.0,
+    "maintenance_pct": 5.0,
+    "licenses_year": 600000.0,
+    "power_kw": 0.5,
+    "electricity_price": 8.0,
+    "battery_price": 250000.0,
+    "battery_years": 4,
+    "raas_month": 130000.0,
+    "raas_setup": 2000000.0,
+    "horizon": 5,
+    "budget": 80000000.0,
+    "ceiling_height": 10.0,
+    "floors": 1,
+    "sku": 2000,
+    "pallet_length": 1200.0,
+    "pallet_width": 800.0,
+    "pallet_height": 1600.0,
+    "floor_deviation": 3.0,
+    "current_productivity": 100.0,
+    "floor_type": "Промышленный бетон",
+    "storage_type": "Фронтальные паллетные",
+    "wms": "Да",
+    "erp": "1С:ERP"
+  },
+  "product": {
+    "id": "aae46e94-1e23-4003-934e-a078f0a32a3c",
+    "source_id": "5760e938-9a43-45a7-b8e8-f4f2e6383930",
+    "name": "Ronavi H1500 (грузоподъемность до 1 500 кг)",
+    "company": "ООО \"Ронави Роботикс\"",
+    "kind": "Мобильные роботы",
+    "subtype": "AMR",
+    "status": "operation",
+    "description": "Автономный мобильный робот (AMR), разработанный отечественной компанией Ronavi Robotics (входит в контур группы «ТехноСпарк» инвестиционной сети РОСНАНО). Он спроектирован для автоматизации складской и производственной логистики и предназначен для перемещения паллет, тележек и конвейерных модулей.",
+    "price": 2700000.0,
+    "applications": [
+      {
+        "industry": "Торговля и услуги",
+        "process": "Внутрискладская логистика",
+        "case": "Внедрено 48 роботов на складах ГК «Восток-Сервис» для транспортировки грузов между зонами хранения. В результате производительность выросла вдвое - с 4 до 8 тысяч отгрузок за смену, количество ошибок сократилось в 13 раз."
+      },
+      {
+        "industry": "Промышленность",
+        "process": "Внутрипроизводственная логистика",
+        "case": "Внедрено 2 робота Ronavi H1500 на автосборочном заводе для межоперационной транспортировки кузовных деталей между сборочным и покрасочным цехами. В результате классическая конвейерная лента заменена на гибкий маршрут, полностью исключены простои смежных зон, а время перемещения крупногабаритных узлов сократилось на 20%."
+      }
+    ],
+    "specs": {
+      "payload_kg": 1500,
+      "pallet_transport": true,
+      "assumed": [
+        "min_aisle_m"
+      ],
+      "max_speed_mps": 1.5,
+      "min_temp_c": 5,
+      "max_temp_c": 25,
+      "width_m": 0.654,
+      "min_aisle_m": 1.5
+    },
+    "sources": [
+      {
+        "title": "catalog_export_v4.csv",
+        "date": "2026-09-16",
+        "status": "Данные организатора"
+      },
+      {
+        "title": "Примеры_решений_типы_объектов.docx",
+        "date": "2026-09-16",
+        "status": "Типовой пример; ширина прохода — допущение"
+      },
+      {
+        "title": "Ronavi Robotics · H1500",
+        "url": "https://ronavi-robotics.ru/catalogue/h1500",
+        "date": "2026-09-17",
+        "status": "Производитель подтверждает груз 1500 кг, скорость 1,5 м/с и размер 1044×654×380 мм. Заявлены автономность до 10 ч и проход 750 мм; в модели сохранены консервативные 6 ч и 1,5 м. Цена от 2,16 млн ₽ относится к закупке от 100 шт.; использована исходная цена организатора."
+      }
+    ],
+    "updated_at": "2026-09-17T08:33:10.012471+00:00",
+    "price_conflict": false
+  },
+  "scenarios": [
+    {
+      "key": "baseline",
+      "label": "Текущий процесс",
+      "capex": 0,
+      "opex": 46872000.0,
+      "annual_effect": 0.0,
+      "payback": null,
+      "roi": null,
+      "net_roi": null,
+      "tco": 234360000.0,
+      "net_effect": 0.0,
+      "capex_items": {},
+      "opex_items": {
+        "Персонал процесса": 46872000.0
+      },
+      "cashflow": [
+        {
+          "year": 1,
+          "opex": 46872000.0,
+          "replacement": 0,
+          "effect": 0.0,
+          "cumulative": 0.0
+        },
+        {
+          "year": 2,
+          "opex": 46872000.0,
+          "replacement": 0,
+          "effect": 0.0,
+          "cumulative": 0.0
+        },
+        {
+          "year": 3,
+          "opex": 46872000.0,
+          "replacement": 0,
+          "effect": 0.0,
+          "cumulative": 0.0
+        },
+        {
+          "year": 4,
+          "opex": 46872000.0,
+          "replacement": 0,
+          "effect": 0.0,
+          "cumulative": 0.0
+        },
+        {
+          "year": 5,
+          "opex": 46872000.0,
+          "replacement": 0,
+          "effect": 0.0,
+          "cumulative": 0.0
+        }
+      ]
+    },
+    {
+      "key": "buy",
+      "label": "Покупка",
+      "capex": 56815000.0,
+      "opex": 33439120.0,
+      "annual_effect": 13432880.0,
+      "payback": 4.229547200600318,
+      "roi": 110.73554519053066,
+      "net_roi": 10.735545190530669,
+      "tco": 228260600.0,
+      "net_effect": 6099400.0,
+      "capex_items": {
+        "Роботы": 45900000.0,
+        "Зарядные станции": 1000000.0,
+        "Инфраструктура": 1500000.0,
+        "ПО": 1000000.0,
+        "Интеграция и запуск": 2000000.0,
+        "Обучение": 250000.0,
+        "Резерв внедрения": 5165000.0
+      },
+      "opex_items": {
+        "Оставшийся персонал процесса": 26248320.0,
+        "Операторы роботов": 3749760.0,
+        "Сервис": 2295000.0,
+        "Лицензии и связь": 600000.0,
+        "Электроэнергия": 546040.0
+      },
+      "cashflow": [
+        {
+          "year": 1,
+          "opex": 33439120.0,
+          "replacement": 0,
+          "effect": 13432880.0,
+          "cumulative": -43382120.0
+        },
+        {
+          "year": 2,
+          "opex": 33439120.0,
+          "replacement": 0,
+          "effect": 13432880.0,
+          "cumulative": -29949240.0
+        },
+        {
+          "year": 3,
+          "opex": 33439120.0,
+          "replacement": 0,
+          "effect": 13432880.0,
+          "cumulative": -16516360.0
+        },
+        {
+          "year": 4,
+          "opex": 33439120.0,
+          "replacement": 4250000.0,
+          "effect": 9182880.0,
+          "cumulative": -7333480.0
+        },
+        {
+          "year": 5,
+          "opex": 33439120.0,
+          "replacement": 0,
+          "effect": 13432880.0,
+          "cumulative": 6099400.0
+        }
+      ]
+    },
+    {
+      "key": "service",
+      "label": "Услуга",
+      "capex": 2000000.0,
+      "opex": 57064120.0,
+      "annual_effect": -10192120.0,
+      "payback": null,
+      "roi": -2548.0299999999997,
+      "net_roi": -2648.0299999999997,
+      "tco": 287320600.0,
+      "net_effect": -52960600.0,
+      "capex_items": {
+        "Запуск услуги": 2000000.0
+      },
+      "opex_items": {
+        "Оставшийся персонал процесса": 26248320.0,
+        "Операторы роботов": 3749760.0,
+        "Платёж за услугу": 26520000.0,
+        "Электроэнергия": 546040.0
+      },
+      "cashflow": [
+        {
+          "year": 1,
+          "opex": 57064120.0,
+          "replacement": 0,
+          "effect": -10192120.0,
+          "cumulative": -12192120.0
+        },
+        {
+          "year": 2,
+          "opex": 57064120.0,
+          "replacement": 0,
+          "effect": -10192120.0,
+          "cumulative": -22384240.0
+        },
+        {
+          "year": 3,
+          "opex": 57064120.0,
+          "replacement": 0,
+          "effect": -10192120.0,
+          "cumulative": -32576360.0
+        },
+        {
+          "year": 4,
+          "opex": 57064120.0,
+          "replacement": 0,
+          "effect": -10192120.0,
+          "cumulative": -42768480.0
+        },
+        {
+          "year": 5,
+          "opex": 57064120.0,
+          "replacement": 0,
+          "effect": -10192120.0,
+          "cumulative": -52960600.0
+        }
+      ]
+    }
+  ],
+  "formulas": [
+    [
+      "Цикл",
+      "2 × маршрут / скорость + погрузка и выгрузка",
+      "секунды; холостой возврат включён"
+    ],
+    [
+      "Производительность робота",
+      "3600 / цикл × автономность / (автономность + зарядка)",
+      "операций/час; зарядка учитывается один раз"
+    ],
+    [
+      "Число роботов",
+      "ceil(пиковый поток / производительность / загрузка × (1 + резерв))",
+      "Поток = операции в сутки / рабочие часы × пик"
+    ],
+    [
+      "CAPEX",
+      "(роботы + зарядки + инфраструктура + ПО + интеграция + обучение) × (1 + резерв бюджета)",
+      "рубли"
+    ],
+    [
+      "Денежная экономия труда",
+      "FTE × зарплата × 12 × начисления × доля высвобождения × доля реализации",
+      "рубли/год; FTE — штат, повторно на смены не умножается"
+    ],
+    [
+      "Годовой эффект",
+      "затраты базового процесса − все затраты процесса после роботизации",
+      "включает оставшийся персонал и эксплуатацию"
+    ],
+    [
+      "Окупаемость",
+      "первоначальные вложения / годовой эффект",
+      "простой срок, только при положительных вложениях и эффекте"
+    ],
+    [
+      "ROI по ТЗ",
+      "накопленный операционный эффект за горизонт / первоначальные вложения × 100%",
+      "дополнительно показывается чистый эффект после первоначальных вложений"
+    ],
+    [
+      "TCO",
+      "первоначальные вложения + сумма годовых затрат процесса + замены АКБ",
+      "номинальные рубли, единая ценовая база; без дисконтирования и налогового моделирования"
+    ]
+  ],
+  "warnings": [
+    "Часть технических ограничений принята как допущение",
+    "Производительность зависит от очередей и планировки; расчётная оценка проверяется симуляцией",
+    "Денежная экономия предполагает сокращение расходов на 11.00 штатных единиц"
+  ],
+  "fleet": {
+    "robots": 17,
+    "recommended": 17,
+    "chargers": 4,
+    "peak_demand": 136.36363636363637,
+    "cycle_seconds": 290.0,
+    "per_robot_capacity": 11.822660098522169,
+    "designed_capacity": 160.7881773399015,
+    "released_fte": 13.75,
+    "saved_fte": 11.0
+  },
+  "sensitivity": [
+    {
+      "parameter": "robot_price",
+      "label": "Цена оборудования",
+      "delta": -20,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 215867600.0,
+          "annual_effect": 13891880.0,
+          "payback": 3.3628997659064144,
+          "roi": 139.58387738938717
+        },
+        {
+          "key": "service",
+          "tco": 287320600.0,
+          "annual_effect": -10192120.0,
+          "payback": null,
+          "roi": -2548.0299999999997
+        }
+      ]
+    },
+    {
+      "parameter": "robot_price",
+      "label": "Цена оборудования",
+      "delta": 0,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 228260600.0,
+          "annual_effect": 13432880.0,
+          "payback": 4.229547200600318,
+          "roi": 110.73554519053066
+        },
+        {
+          "key": "service",
+          "tco": 287320600.0,
+          "annual_effect": -10192120.0,
+          "payback": null,
+          "roi": -2548.0299999999997
+        }
+      ]
+    },
+    {
+      "parameter": "robot_price",
+      "label": "Цена оборудования",
+      "delta": 20,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 240653600.0,
+          "annual_effect": 12973880.0,
+          "payback": 5.157516486972286,
+          "roi": 90.59435386247814
+        },
+        {
+          "key": "service",
+          "tco": 287320600.0,
+          "annual_effect": -10192120.0,
+          "payback": null,
+          "roi": -2548.0299999999997
+        }
+      ]
+    },
+    {
+      "parameter": "daily_moves",
+      "label": "Объём операций",
+      "delta": -20,
+      "robots": 14,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 215818800.0,
+          "annual_effect": 13934240.0,
+          "payback": 3.418198624395733,
+          "roi": 138.9275666596683
+        },
+        {
+          "key": "service",
+          "tco": 263438800.0,
+          "annual_effect": -5415760.0,
+          "payback": null,
+          "roi": -1353.94
+        }
+      ]
+    },
+    {
+      "parameter": "daily_moves",
+      "label": "Объём операций",
+      "delta": 0,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 228260600.0,
+          "annual_effect": 13432880.0,
+          "payback": 4.229547200600318,
+          "roi": 110.73554519053066
+        },
+        {
+          "key": "service",
+          "tco": 287320600.0,
+          "annual_effect": -10192120.0,
+          "payback": null,
+          "roi": -2548.0299999999997
+        }
+      ]
+    },
+    {
+      "parameter": "daily_moves",
+      "label": "Объём операций",
+      "delta": 20,
+      "robots": 20,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 240427400.0,
+          "annual_effect": 12931520.0,
+          "payback": 5.082542500804236,
+          "roi": 90.76850513503233
+        },
+        {
+          "key": "service",
+          "tco": 311202400.0,
+          "annual_effect": -14968480.0,
+          "payback": null,
+          "roi": -3742.12
+        }
+      ]
+    },
+    {
+      "parameter": "salary",
+      "label": "Стоимость труда",
+      "delta": -20,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 187488000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 198262520.0,
+          "annual_effect": 10058096.0,
+          "payback": 5.648683408867841,
+          "roi": 81.03578280383702
+        },
+        {
+          "key": "service",
+          "tco": 257322520.0,
+          "annual_effect": -13566904.0,
+          "payback": null,
+          "roi": -3391.7259999999997
+        }
+      ]
+    },
+    {
+      "parameter": "salary",
+      "label": "Стоимость труда",
+      "delta": 0,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 234360000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 228260600.0,
+          "annual_effect": 13432880.0,
+          "payback": 4.229547200600318,
+          "roi": 110.73554519053066
+        },
+        {
+          "key": "service",
+          "tco": 287320600.0,
+          "annual_effect": -10192120.0,
+          "payback": null,
+          "roi": -2548.0299999999997
+        }
+      ]
+    },
+    {
+      "parameter": "salary",
+      "label": "Стоимость труда",
+      "delta": 20,
+      "robots": 17,
+      "scenarios": [
+        {
+          "key": "baseline",
+          "tco": 281232000.0,
+          "annual_effect": 0.0,
+          "payback": null,
+          "roi": null
+        },
+        {
+          "key": "buy",
+          "tco": 258258680.0,
+          "annual_effect": 16807664.0,
+          "payback": 3.3803031759797197,
+          "roi": 140.43530757722434
+        },
+        {
+          "key": "service",
+          "tco": 317318680.0,
+          "annual_effect": -6817336.0,
+          "payback": null,
+          "roi": -1704.334
+        }
+      ]
+    }
+  ],
+  "assumptions": {
+    "area": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C4",
+      "default": 20000,
+      "overridden": false
+    },
+    "active_area": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C5",
+      "default": 10000,
+      "overridden": false
+    },
+    "aisle_width": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C9",
+      "default": 2.8,
+      "overridden": false
+    },
+    "payload_kg": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C41",
+      "default": 800,
+      "overridden": false
+    },
+    "temperature": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 18,
+      "overridden": false
+    },
+    "daily_moves": {
+      "source": "Склад!C18+C19; допущение: одно перемещение на каждую приёмку и отгрузку",
+      "default": 2000,
+      "overridden": false
+    },
+    "hours_day": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C13 × C15",
+      "default": 22,
+      "overridden": false
+    },
+    "days_year": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C14",
+      "default": 365,
+      "overridden": false
+    },
+    "peak_factor": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C16",
+      "default": 1.5,
+      "overridden": false
+    },
+    "distance": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 120,
+      "overridden": false
+    },
+    "handling_seconds": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 90,
+      "overridden": false
+    },
+    "speed": {
+      "source": "Ниже максимума Ronavi H1500 1,5 м/с из примеров организатора",
+      "default": 1.2,
+      "overridden": false
+    },
+    "battery_hours": {
+      "source": "Примеры решений · Ronavi H1500: до 6 часов; расчётное допущение",
+      "default": 6,
+      "overridden": false
+    },
+    "charge_minutes": {
+      "source": "Примеры решений · Ronavi H1500: около 18 минут",
+      "default": 18,
+      "overridden": false
+    },
+    "utilization": {
+      "source": "Легенда датасета: AMR 70–85%; применяется как запас на ожидания, зарядка учтена отдельно",
+      "default": 80,
+      "overridden": false
+    },
+    "reserve_pct": {
+      "source": "Легенда датасета: резерв 15–20%",
+      "default": 15,
+      "overridden": false
+    },
+    "robots_override": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 0,
+      "overridden": false
+    },
+    "loading_bays": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 3,
+      "overridden": false
+    },
+    "corridor_capacity": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 3,
+      "overridden": false
+    },
+    "staff": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C28; допущение: все 25 FTE относятся к этому процессу",
+      "default": 25,
+      "overridden": false
+    },
+    "salary": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C31",
+      "default": 120000,
+      "overridden": false
+    },
+    "payroll_factor": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C32; демонстрационный норматив организатора, не актуальная налоговая консультация",
+      "default": 1.302,
+      "overridden": false
+    },
+    "released_pct": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 55,
+      "overridden": false
+    },
+    "cash_realization_pct": {
+      "source": "Не всё высвобождённое время даёт денежную экономию",
+      "default": 80,
+      "overridden": false
+    },
+    "support_staff": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 2,
+      "overridden": false
+    },
+    "robot_price": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 0,
+      "overridden": false
+    },
+    "charger_price": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 250000,
+      "overridden": false
+    },
+    "robots_per_charger": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 5,
+      "overridden": false
+    },
+    "infrastructure": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 1500000,
+      "overridden": false
+    },
+    "software": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 1000000,
+      "overridden": false
+    },
+    "integration": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 2000000,
+      "overridden": false
+    },
+    "training": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 250000,
+      "overridden": false
+    },
+    "capex_reserve_pct": {
+      "source": "Легенда датасета: резерв CAPEX 10%",
+      "default": 10,
+      "overridden": false
+    },
+    "maintenance_pct": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 5,
+      "overridden": false
+    },
+    "licenses_year": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 600000,
+      "overridden": false
+    },
+    "power_kw": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 0.5,
+      "overridden": false
+    },
+    "electricity_price": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 8,
+      "overridden": false
+    },
+    "battery_price": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 250000,
+      "overridden": false
+    },
+    "battery_years": {
+      "source": "Легенда датасета: 3–5 лет",
+      "default": 4,
+      "overridden": false
+    },
+    "raas_month": {
+      "source": "Допущение: включает роботов, зарядки, ПО, сервис и АКБ; не коммерческое предложение",
+      "default": 130000,
+      "overridden": false
+    },
+    "raas_setup": {
+      "source": "Допущение команды; изменяется пользователем",
+      "default": 2000000,
+      "overridden": false
+    },
+    "horizon": {
+      "source": "ТЗ: TCO не менее пяти лет",
+      "default": 5,
+      "overridden": false
+    },
+    "budget": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C50 × 1 000 000",
+      "default": 80000000,
+      "overridden": false
+    },
+    "ceiling_height": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C6",
+      "default": 10,
+      "overridden": false
+    },
+    "floors": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C7",
+      "default": 1,
+      "overridden": false
+    },
+    "sku": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C23; справочно для паллетного процесса",
+      "default": 2000,
+      "overridden": false
+    },
+    "pallet_length": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C43",
+      "default": 1200,
+      "overridden": false
+    },
+    "pallet_width": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C43",
+      "default": 800,
+      "overridden": false
+    },
+    "pallet_height": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C43",
+      "default": 1600,
+      "overridden": false
+    },
+    "floor_deviation": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C11",
+      "default": 3,
+      "overridden": false
+    },
+    "current_productivity": {
+      "source": "Допущение: текущая суммарная выработка процесса, справочный KPI",
+      "default": 100,
+      "overridden": false
+    },
+    "floor_type": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C10",
+      "default": "Промышленный бетон",
+      "overridden": false
+    },
+    "storage_type": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C39",
+      "default": "Фронтальные паллетные",
+      "overridden": false
+    },
+    "wms": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C48",
+      "default": "Да",
+      "overridden": false
+    },
+    "erp": {
+      "source": "Датасеты_хакатон.xlsx · Склад!C49",
+      "default": "1С:ERP",
+      "overridden": false
+    }
+  },
+  "simulation_summary": {
+    "seed": 42,
+    "hours": 4.0,
+    "duration": 14400.0,
+    "robots": 17,
+    "chargers": 4,
+    "expected_throughput": 136.36363636363637,
+    "throughput": 54.75,
+    "arrived": 532,
+    "completed": 219,
+    "queued": 307,
+    "in_progress": 6,
+    "mean_wait_minutes": 65.09994891301938,
+    "p95_wait_minutes": 128.54019980168567,
+    "utilization": 25.728662581699346,
+    "state_shares": {
+      "travel": 17.55,
+      "handling": 8.17,
+      "waiting": 73.2,
+      "charging": 0.0,
+      "idle": 1.07
+    },
+    "passed": false,
+    "bottlenecks": [
+      "Ожидание общего проезда или мест погрузки",
+      "Очередь необработанных задач растёт при пиковом потоке",
+      "95% задач начинают выполняться с задержкой до 128.5 мин"
+    ],
+    "model_version": "warehouse-1.0.0",
+    "notes": [
+      "Моделируется постоянный пиковый поток, поступление задач случайное с фиксированным seed.",
+      "Общий проезд и места погрузки имеют ограниченную ёмкость; показана типовая схема.",
+      "Батарея расходуется на рабочие циклы; время зарядки и число станций взяты из расчёта.",
+      "Критерий: выполнено не менее 95% ожидаемого потока, остаточная очередь не выше порога.",
+      "Это проверка модельных предпосылок, а не подтверждение характеристик реального объекта."
+    ]
+  }
+}

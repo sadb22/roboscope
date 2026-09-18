@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.sqlite3
+staticfiles/
+media/
+.DS_Store
+artifacts/private/
+test-results/
+backups/
+tmp/
+.codex-finalizer/
+.chart-data-*/

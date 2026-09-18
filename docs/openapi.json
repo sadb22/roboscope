@@ -1,0 +1,1421 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Робоскоп API",
+    "version": "1.0.0",
+    "description": "Сессионная авторизация Django. Для POST/PUT/DELETE передавайте cookie csrftoken как заголовок X-CSRFToken. GET / устанавливает CSRF cookie. Все суммы в рублях. Неизвестные входные поля отклоняются. Экспорт сохранённой ревизии использует её снимок. При сохранении ранее загруженной версии calculation_revision указывает снимок для воспроизведения, а revision задаёт текущую ревизию проекта для защиты от конфликтов."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/bootstrap/": {
+      "get": {
+        "summary": "Начальные параметры, пользователь и три типа объектов",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        }
+      }
+    },
+    "/api/catalog/": {
+      "get": {
+        "summary": "Каталог с применимостью и вкладом факторов",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "parameters": [
+          {
+            "name": "object",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "warehouse",
+                "airport",
+                "hospital"
+              ]
+            }
+          },
+          {
+            "name": "inputs",
+            "in": "query",
+            "description": "JSON параметров склада",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/calculate/": {
+      "post": {
+        "summary": "Рассчитать парк и три сценария",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/{action}/": {
+      "post": {
+        "summary": "Вход, регистрация или выход",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "parameters": [
+          {
+            "name": "action",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "login",
+                "register",
+                "logout"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/": {
+      "get": {
+        "summary": "Список своих проектов / сохранение нового",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Список своих проектов / сохранение нового",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          },
+          "201": {
+            "description": "ID нового проекта, revision=1"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/": {
+      "get": {
+        "summary": "Открыть ревизию, сохранить новую или удалить свой проект",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ]
+      },
+      "put": {
+        "summary": "Открыть ревизию, сохранить новую или удалить свой проект",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Открыть ревизию, сохранить новую или удалить свой проект",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/projects/{id}/copy/": {
+      "post": {
+        "summary": "Копировать собственный проект и его расчётный снимок",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/simulations/": {
+      "post": {
+        "summary": "Поставить дискретно-событийный прогон в очередь",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          },
+          "202": {
+            "description": "ID и status=pending. Опросить /api/simulations/{id}/. Состояния pending, running, done, failed."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/simulations/{id}/": {
+      "get": {
+        "summary": "Состояние собственного прогона и результат",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/export/{format}/": {
+      "post": {
+        "summary": "Отчёт текущего или сохранённого расчёта",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "xlsx",
+                "json"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/template/": {
+      "get": {
+        "summary": "Скачать шаблон параметров XLSX",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        }
+      }
+    },
+    "/api/import/": {
+      "post": {
+        "summary": "Проверить и прочитать XLSX/CSV до 5 МБ без сохранения файла",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/catalog/import/": {
+      "post": {
+        "summary": "Транзакционное обновление CSV-каталога администратором",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/": {
+      "get": {
+        "summary": "Проверка доступности приложения и базы",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        }
+      }
+    },
+    "/api/worker-health/": {
+      "get": {
+        "summary": "Heartbeat и очередь симуляций; администратор",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          }
+        ]
+      }
+    },
+    "/api/schema/": {
+      "get": {
+        "summary": "Спецификация API",
+        "responses": {
+          "200": {
+            "description": "Успешный результат"
+          },
+          "400": {
+            "description": "Ошибка входов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Требуется вход"
+          },
+          "403": {
+            "description": "Нет доступа или неверный CSRF"
+          },
+          "404": {
+            "description": "Запись не найдена или принадлежит другому пользователю"
+          },
+          "409": {
+            "description": "Конфликт ревизии или активный прогон"
+          },
+          "429": {
+            "description": "Превышен лимит"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sessionid"
+      },
+      "csrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRFToken"
+      }
+    },
+    "schemas": {
+      "Inputs": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "description": "Площадь склада; Датасеты_хакатон.xlsx · Склад!C4",
+            "default": 20000,
+            "type": "number",
+            "minimum": 100,
+            "maximum": 1000000
+          },
+          "active_area": {
+            "description": "Площадь рабочей зоны; Датасеты_хакатон.xlsx · Склад!C5",
+            "default": 10000,
+            "type": "number",
+            "minimum": 50,
+            "maximum": 1000000
+          },
+          "aisle_width": {
+            "description": "Ширина рабочих проходов; Датасеты_хакатон.xlsx · Склад!C9",
+            "default": 2.8,
+            "type": "number",
+            "minimum": 0.6,
+            "maximum": 20
+          },
+          "payload_kg": {
+            "description": "Масса паллеты с грузом; Датасеты_хакатон.xlsx · Склад!C41",
+            "default": 800,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "temperature": {
+            "description": "Температура в помещении; Допущение команды; изменяется пользователем",
+            "default": 18,
+            "type": "number",
+            "minimum": -40,
+            "maximum": 60
+          },
+          "daily_moves": {
+            "description": "Перемещения паллет за сутки; Склад!C18+C19; допущение: одно перемещение на каждую приёмку и отгрузку",
+            "default": 2000,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 50000
+          },
+          "hours_day": {
+            "description": "Рабочее время в сутки; Датасеты_хакатон.xlsx · Склад!C13 × C15",
+            "default": 22,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 24
+          },
+          "days_year": {
+            "description": "Рабочие дни в году; Датасеты_хакатон.xlsx · Склад!C14",
+            "default": 365,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 366
+          },
+          "peak_factor": {
+            "description": "Коэффициент пиковой нагрузки; Датасеты_хакатон.xlsx · Склад!C16",
+            "default": 1.5,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "distance": {
+            "description": "Маршрут с грузом в одну сторону; Допущение команды; изменяется пользователем",
+            "default": 120,
+            "type": "number",
+            "minimum": 5,
+            "maximum": 2000
+          },
+          "handling_seconds": {
+            "description": "Погрузка и выгрузка за рейс; Допущение команды; изменяется пользователем",
+            "default": 90,
+            "type": "number",
+            "minimum": 10,
+            "maximum": 1800
+          },
+          "speed": {
+            "description": "Рабочая скорость робота; Ниже максимума Ronavi H1500 1,5 м/с из примеров организатора",
+            "default": 1.2,
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 3
+          },
+          "battery_hours": {
+            "description": "Движение до зарядки; Примеры решений · Ronavi H1500: до 6 часов; расчётное допущение",
+            "default": 6,
+            "type": "number",
+            "minimum": 0.25,
+            "maximum": 24
+          },
+          "charge_minutes": {
+            "description": "Продолжительность зарядки; Примеры решений · Ronavi H1500: около 18 минут",
+            "default": 18,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 360
+          },
+          "utilization": {
+            "description": "Целевая загрузка; Легенда датасета: AMR 70–85%; применяется как запас на ожидания, зарядка учтена отдельно",
+            "default": 80,
+            "type": "number",
+            "minimum": 10,
+            "maximum": 95
+          },
+          "reserve_pct": {
+            "description": "Резерв производительности; Легенда датасета: резерв 15–20%",
+            "default": 15,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "robots_override": {
+            "description": "Роботы: ручная корректировка (0 — авто); Допущение команды; изменяется пользователем",
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 500
+          },
+          "loading_bays": {
+            "description": "Параллельные места погрузки; Допущение команды; изменяется пользователем",
+            "default": 3,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "corridor_capacity": {
+            "description": "Роботы одновременно на участке; Допущение команды; изменяется пользователем",
+            "default": 3,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "staff": {
+            "description": "Штатные единицы в выбранном процессе; Датасеты_хакатон.xlsx · Склад!C28; допущение: все 25 FTE относятся к этому процессу",
+            "default": 25,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 2000
+          },
+          "salary": {
+            "description": "Месячная зарплата до начислений; Датасеты_хакатон.xlsx · Склад!C31",
+            "default": 120000,
+            "type": "number",
+            "minimum": 10000,
+            "maximum": 1000000
+          },
+          "payroll_factor": {
+            "description": "Коэффициент начислений на зарплату; Датасеты_хакатон.xlsx · Склад!C32; демонстрационный норматив организатора, не актуальная налоговая консультация",
+            "default": 1.302,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 2
+          },
+          "released_pct": {
+            "description": "Доля высвобождаемого труда; Допущение команды; изменяется пользователем",
+            "default": 55,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "cash_realization_pct": {
+            "description": "Доля высвобождения, сокращающая расходы; Не всё высвобождённое время даёт денежную экономию",
+            "default": 80,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "support_staff": {
+            "description": "Дополнительные операторы роботов; Допущение команды; изменяется пользователем",
+            "default": 2,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "robot_price": {
+            "description": "Цена робота (0 — из каталога); Допущение команды; изменяется пользователем",
+            "default": 0,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "charger_price": {
+            "description": "Цена зарядной станции; Допущение команды; изменяется пользователем",
+            "default": 250000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000
+          },
+          "robots_per_charger": {
+            "description": "Роботов на зарядную станцию; Допущение команды; изменяется пользователем",
+            "default": 5,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "infrastructure": {
+            "description": "Подготовка инфраструктуры; Допущение команды; изменяется пользователем",
+            "default": 1500000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "software": {
+            "description": "Первоначальная стоимость ПО; Допущение команды; изменяется пользователем",
+            "default": 1000000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "integration": {
+            "description": "Интеграция и пусконаладка; Допущение команды; изменяется пользователем",
+            "default": 2000000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "training": {
+            "description": "Обучение персонала; Допущение команды; изменяется пользователем",
+            "default": 250000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100000000
+          },
+          "capex_reserve_pct": {
+            "description": "Резерв бюджета внедрения; Легенда датасета: резерв CAPEX 10%",
+            "default": 10,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 50
+          },
+          "maintenance_pct": {
+            "description": "Сервис оборудования в год; Допущение команды; изменяется пользователем",
+            "default": 5,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 50
+          },
+          "licenses_year": {
+            "description": "Лицензии и связь в год; Допущение команды; изменяется пользователем",
+            "default": 600000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100000000
+          },
+          "power_kw": {
+            "description": "Средняя электрическая мощность робота; Допущение команды; изменяется пользователем",
+            "default": 0.5,
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 100
+          },
+          "electricity_price": {
+            "description": "Тариф на электроэнергию; Допущение команды; изменяется пользователем",
+            "default": 8,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "battery_price": {
+            "description": "Замена аккумулятора на одном роботе; Допущение команды; изменяется пользователем",
+            "default": 250000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000
+          },
+          "battery_years": {
+            "description": "Период замены аккумулятора; Легенда датасета: 3–5 лет",
+            "default": 4,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "raas_month": {
+            "description": "Тариф услуги на робота в месяц; Допущение: включает роботов, зарядки, ПО, сервис и АКБ; не коммерческое предложение",
+            "default": 130000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000
+          },
+          "raas_setup": {
+            "description": "Разовый платёж за запуск услуги; Допущение команды; изменяется пользователем",
+            "default": 2000000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "horizon": {
+            "description": "Горизонт сравнения; ТЗ: TCO не менее пяти лет",
+            "default": 5,
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 15
+          },
+          "budget": {
+            "description": "Бюджет первоначальных вложений; Датасеты_хакатон.xlsx · Склад!C50 × 1 000 000",
+            "default": 80000000,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000000
+          },
+          "ceiling_height": {
+            "description": "Высота потолков; Датасеты_хакатон.xlsx · Склад!C6",
+            "default": 10,
+            "type": "number",
+            "minimum": 2,
+            "maximum": 40
+          },
+          "floors": {
+            "description": "Этажей в рабочей зоне; Датасеты_хакатон.xlsx · Склад!C7",
+            "default": 1,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "sku": {
+            "description": "Активные SKU; Датасеты_хакатон.xlsx · Склад!C23; справочно для паллетного процесса",
+            "default": 2000,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "pallet_length": {
+            "description": "Длина паллеты; Датасеты_хакатон.xlsx · Склад!C43",
+            "default": 1200,
+            "type": "number",
+            "minimum": 100,
+            "maximum": 5000
+          },
+          "pallet_width": {
+            "description": "Ширина паллеты; Датасеты_хакатон.xlsx · Склад!C43",
+            "default": 800,
+            "type": "number",
+            "minimum": 100,
+            "maximum": 5000
+          },
+          "pallet_height": {
+            "description": "Высота паллеты с грузом; Датасеты_хакатон.xlsx · Склад!C43",
+            "default": 1600,
+            "type": "number",
+            "minimum": 100,
+            "maximum": 5000
+          },
+          "floor_deviation": {
+            "description": "Неровность пола; Датасеты_хакатон.xlsx · Склад!C11",
+            "default": 3,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 30
+          },
+          "current_productivity": {
+            "description": "Производительность ручного процесса; Допущение: текущая суммарная выработка процесса, справочный KPI",
+            "default": 100,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "floor_type": {
+            "description": "Покрытие пола; Датасеты_хакатон.xlsx · Склад!C10",
+            "default": "Промышленный бетон",
+            "type": "string",
+            "enum": [
+              "Промышленный бетон",
+              "Эпоксидное покрытие",
+              "Асфальт",
+              "Другое"
+            ]
+          },
+          "storage_type": {
+            "description": "Система хранения; Датасеты_хакатон.xlsx · Склад!C39",
+            "default": "Фронтальные паллетные",
+            "type": "string",
+            "enum": [
+              "Фронтальные паллетные",
+              "Напольное хранение",
+              "Канальные стеллажи",
+              "Другое"
+            ]
+          },
+          "wms": {
+            "description": "Складская система WMS; Датасеты_хакатон.xlsx · Склад!C48",
+            "default": "Да",
+            "type": "string",
+            "enum": [
+              "Да",
+              "Нет"
+            ]
+          },
+          "erp": {
+            "description": "Система ERP; Датасеты_хакатон.xlsx · Склад!C49",
+            "default": "1С:ERP",
+            "type": "string",
+            "enum": [
+              "1С:ERP",
+              "Другая ERP",
+              "Нет"
+            ]
+          }
+        }
+      },
+      "CalculationRequest": {
+        "type": "object",
+        "properties": {
+          "inputs": {
+            "$ref": "#/components/schemas/Inputs"
+          },
+          "object_type": {
+            "type": "string",
+            "enum": [
+              "warehouse"
+            ]
+          },
+          "product_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Заменяет входы на сохранённый снимок; только владелец"
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "simulation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "hours": {
+            "type": "number",
+            "minimum": 0.25,
+            "maximum": 8,
+            "default": 4
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 42
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

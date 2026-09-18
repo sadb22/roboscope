@@ -1,0 +1,16 @@
+{$SITE_DOMAIN} {
+    encode zstd gzip
+    request_body {
+        max_size 6MB
+    }
+    header {
+        Referrer-Policy "same-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+    }
+    reverse_proxy web:8000
+    log {
+        output stdout
+    }
+}

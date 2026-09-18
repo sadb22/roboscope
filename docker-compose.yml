@@ -1,0 +1,81 @@
+name: roboscope
+x-app: &app
+  build: .
+  image: roboscope:local
+  env_file: .env
+  environment:
+    DEBUG: "0"
+    DATABASE_URL: postgresql://roboscope:${DB_PASSWORD}@db:5432/roboscope
+  restart: unless-stopped
+  init: true
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: roboscope
+      POSTGRES_USER: roboscope
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U roboscope -d roboscope"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  migrate:
+    <<: *app
+    command: ["sh", "-c", "python manage.py migrate --noinput && python manage.py seed_data"]
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+  web:
+    <<: *app
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,urllib.request; req=urllib.request.Request('http://127.0.0.1:8000/health/',headers={'Host':os.environ['ALLOWED_HOSTS'].split(',')[0],'X-Forwarded-Proto':'https'}); assert urllib.request.urlopen(req).status==200"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    expose: ["8000"]
+  worker:
+    <<: *app
+    command: ["python", "manage.py", "simulation_worker"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  proxy:
+    image: caddy:2-alpine
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?Set SITE_DOMAIN in .env}
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+    restart: unless-stopped
+  backup:
+    image: postgres:16-alpine
+    environment:
+      PGHOST: db
+      PGUSER: roboscope
+      PGDATABASE: roboscope
+      PGPASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup-loop.sh:/backup-loop.sh:ro
+    command: ["sh", "/backup-loop.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:
